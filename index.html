@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rakshit Dwaram | NLSIU Bare Act Project</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --nls-blue: #003366;
+            --accent-gold: #c5a059;
+            --bg-light: #f4f7f9;
+            --white: #ffffff;
+            --text-dark: #2c3e50;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-light); color: var(--text-dark); line-height: 1.6; }
+
+        /* --- Hero Section --- */
+        header { 
+            background: linear-gradient(135deg, var(--nls-blue) 0%, #001f3f 100%);
+            color: white; padding: 4rem 2rem; text-align: center;
+            border-bottom: 5px solid var(--accent-gold);
+        }
+        header h1 { font-family: 'Playfair Display', serif; font-size: 2.8rem; margin-bottom: 0.5rem; }
+        header p { font-size: 1.1rem; opacity: 0.9; max-width: 700px; margin: 0 auto; font-weight: 300; }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        /* --- Mission Section --- */
+        .mission-section { 
+            display: flex; gap: 40px; margin: -50px auto 60px; 
+            background: var(--white); padding: 2.5rem; border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.08); align-items: center;
+        }
+        .mission-text { flex: 1; }
+        .mission-text h2 { color: var(--nls-blue); margin: 10px 0 15px; font-size: 1.8rem; }
+        .mission-text p { margin-bottom: 12px; color: #555; }
+        .badge { 
+            display: inline-block; background: var(--accent-gold); color: white; 
+            padding: 6px 16px; border-radius: 20px; font-size: 0.75rem; 
+            text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px;
+        }
+
+        /* --- Search and Filter --- */
+        .controls { 
+            display: flex; gap: 15px; margin-bottom: 40px; 
+            background: white; padding: 20px; border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .search-box { 
+            flex: 1; padding: 12px 20px; border: 2px solid #e0e0e0; 
+            border-radius: 8px; font-size: 1rem; transition: 0.3s;
+        }
+        .search-box:focus { outline: none; border-color: var(--nls-blue); }
+        .filter-btn { 
+            padding: 12px 24px; border: 2px solid var(--nls-blue); 
+            background: white; color: var(--nls-blue); border-radius: 8px; 
+            cursor: pointer; font-weight: 600; transition: 0.3s;
+        }
+        .filter-btn.active { background: var(--nls-blue); color: white; }
+        .filter-btn:hover { background: var(--nls-blue); color: white; }
+
+        /* --- Stats Section --- */
+        .stats { 
+            display: grid; grid-template-columns: repeat(3, 1fr); 
+            gap: 20px; margin-bottom: 50px;
+        }
+        .stat-card { 
+            background: white; padding: 1.5rem; border-radius: 10px; 
+            text-align: center; border-left: 4px solid var(--accent-gold);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .stat-number { font-size: 2.5rem; font-weight: 700; color: var(--nls-blue); }
+        .stat-label { color: #777; font-size: 0.9rem; margin-top: 5px; }
+
+        /* --- Acts Library (Flashcards) --- */
+        .library-header { 
+            text-align: center; margin-bottom: 40px; 
+        }
+        .library-header h2 { 
+            font-family: 'Playfair Display', serif; font-size: 2.2rem; 
+            color: var(--nls-blue); margin-bottom: 10px;
+        }
+        .library-header p { color: #666; font-size: 1rem; }
+
+        .acts-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
+            gap: 25px; margin-bottom: 60px;
+        }
+
+        .act-flashcard { 
+            background: var(--white); border-radius: 12px; 
+            padding: 1.8rem; box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+            border-top: 3px solid var(--nls-blue);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer; position: relative;
+            display: flex; flex-direction: column;
+        }
+        .act-flashcard:hover { 
+            transform: translateY(-8px); 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.12);
+        }
+        
+        .act-category { 
+            display: inline-block; background: #e8f4f8; 
+            color: var(--nls-blue); padding: 4px 12px; 
+            border-radius: 15px; font-size: 0.75rem; 
+            font-weight: 600; margin-bottom: 12px;
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        
+        .act-title { 
+            font-size: 1.1rem; font-weight: 600; 
+            color: var(--text-dark); margin-bottom: 8px;
+            min-height: 2.5rem; line-height: 1.3;
+        }
+        
+        .act-year { 
+            color: #888; font-size: 0.85rem; 
+            margin-bottom: 15px; font-weight: 500;
+        }
+
+        .act-actions { 
+            display: flex; gap: 10px; margin-top: auto;
+        }
+        .act-btn { 
+            flex: 1; text-align: center; padding: 10px; 
+            border-radius: 6px; text-decoration: none; 
+            font-weight: 600; font-size: 0.85rem; 
+            transition: all 0.2s; display: flex;
+            align-items: center; justify-content: center; gap: 6px;
+        }
+        .btn-view { 
+            border: 2px solid var(--nls-blue); 
+            color: var(--nls-blue); background: white;
+        }
+        .btn-view:hover { background: var(--nls-blue); color: white; }
+        .btn-download { 
+            background: var(--accent-gold); color: white; border: none;
+        }
+        .btn-download:hover { background: #b89048; }
+
+        /* --- Footer --- */
+        footer { 
+            text-align: center; padding: 40px 20px; 
+            font-size: 0.9rem; color: #777; 
+            border-top: 1px solid #ddd; background: white;
+        }
+        footer p { margin: 5px 0; }
+        footer a { color: var(--nls-blue); text-decoration: none; font-weight: 600; }
+
+        /* --- Responsive --- */
+        @media (max-width: 768px) {
+            header h1 { font-size: 2rem; }
+            .mission-section { flex-direction: column; margin-top: -30px; }
+            .stats { grid-template-columns: 1fr; }
+            .controls { flex-direction: column; }
+            .acts-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>The Digital Bare Act Project</h1>
+    <p>Bridging Engineering Precision with Legal Research</p>
+</header>
+
+<div class="container">
+    <section class="mission-section">
+        <div class="mission-text">
+            <span class="badge">Founder's Note</span>
+            <h2>Hi, I'm Rakshit Dwaram</h2>
+            <p>As an <strong>engineer currently pursuing my LLB at NLSIU</strong>, I noticed a fundamental flaw in how we access our primary tools: Bare Acts. Most online sources are cluttered with ads, poorly formatted HTML, or outdated text.</p>
+            <p>I am applying my engineering background to build a <strong>clean, authoritative repository</strong>. This platform provides direct, indexed access to official PDFs, ensuring that the law you read is the law as it was printed.</p>
+        </div>
+    </section>
+
+    <div class="stats">
+        <div class="stat-card">
+            <div class="stat-number">52</div>
+            <div class="stat-label">Bare Acts</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">100%</div>
+            <div class="stat-label">Official Sources</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-number">0</div>
+            <div class="stat-label">Ads or Clutter</div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <input type="text" class="search-box" id="searchBox" placeholder="Search by act name or year...">
+        <button class="filter-btn active" data-filter="all">All Acts</button>
+        <button class="filter-btn" data-filter="civil">Civil</button>
+        <button class="filter-btn" data-filter="criminal">Criminal</button>
+        <button class="filter-btn" data-filter="corporate">Corporate</button>
+        <button class="filter-btn" data-filter="labour">Labour</button>
+        <button class="filter-btn" data-filter="ip">IP & Tech</button>
+    </div>
+
+    <div class="library-header">
+        <h2>Complete Acts Library</h2>
+        <p>All acts sourced directly from IndiaCode with full indexing</p>
+    </div>
+
+    <div class="acts-grid" id="actsGrid">
+        <!-- Acts will be dynamically generated here -->
+    </div>
+</div>
+
+<footer>
+    <p><strong>&copy; 2026 Rakshit Dwaram</strong> | NLSIU Bangalore</p>
+    <p>Designed for Law Students | <a href="mailto:rakshit@example.com">Contact</a></p>
+</footer>
+
+<script>
+    const acts = [
+        { title: "The Constitution of India", year: "", category: "constitutional", file: "The Constitution of India.pdf" },
+        { title: "Bharatiya Nyaya Sanhita (BNS)", year: "2023", category: "criminal", file: "The Bharatiya Nyaya Sanhita, 2023.pdf" },
+        { title: "Bhartiya Nagarik Suraksha Sanhita (BNSS)", year: "2023", category: "criminal", file: "Bhartiya Nagarik Suraksha Sanhita (BNSS), 2023.pdf" },
+        { title: "Bhartiya Sakshya Adhiniyam (BSA)", year: "2023", category: "criminal", file: "Bhartiya Sakshya Adhiniyam (BSA), 2023.pdf" },
+        { title: "Indian Penal Code", year: "1860", category: "criminal", file: "Indian Penal Code.pdf" },
+        { title: "Code of Criminal Procedure", year: "1973", category: "criminal", file: "Code of Criminal Procedure, 1973.pdf" },
+        { title: "Indian Evidence Act", year: "1872", category: "criminal", file: "Indian Evidence Act, 1872.pdf" },
+        { title: "Code of Civil Procedure", year: "1908", category: "civil", file: "Code of Civil Procedure, 1908.pdf" },
+        { title: "Indian Contract Act", year: "1872", category: "civil", file: "Indian Contract Act, 1872.pdf" },
+        { title: "Transfer of Property Act", year: "1882", category: "civil", file: "Transfer of Property Act, 1882.pdf" },
+        { title: "Specific Relief Act", year: "1963", category: "civil", file: "Specific Relief Act, 1963.pdf" },
+        { title: "Limitation Act", year: "1963", category: "civil", file: "Limitation Act, 1963.pdf" },
+        { title: "Negotiable Instruments Act", year: "1881", category: "civil", file: "Negotiable Instruments Act, 1881.pdf" },
+        { title: "Arbitration and Conciliation Act", year: "1996", category: "civil", file: "Arbitration and Conciliation Act, 1996.pdf" },
+        { title: "The Mediation Act", year: "2023", category: "civil", file: "The Mediation Act, 2023.pdf" },
+        { title: "Companies Act", year: "2013", category: "corporate", file: "Companies Act, 2013.pdf" },
+        { title: "Consumer Protection Act", year: "2019", category: "corporate", file: "Consumer Protection Act, 2019.pdf" },
+        { title: "Hindu Marriage Act", year: "1955", category: "family", file: "Hindu Marriage Act, 1955.pdf" },
+        { title: "Hindu Succession Act", year: "1956", category: "family", file: "Hindu Succession Act, 1956.pdf" },
+        { title: "Hindu Adoptions and Maintenance Act", year: "1956", category: "family", file: "Hindu Adoptions and Maintenance Act, 1956.pdf" },
+        { title: "Hindu Minority and Guardianship Act", year: "1956", category: "family", file: "Hindu Minority and Guardianship Act, 1956.pdf" },
+        { title: "Hindu Disposition of Property Act", year: "1916", category: "family", file: "Hindu Disposition of Property Act, 1916.pdf" },
+        { title: "Dissolution of Muslim Marriages Act", year: "1939", category: "family", file: "Dissolution of Muslim Marriages Act, 1939.pdf" },
+        { title: "Muslim Personal Law (Shariat) Application Act", year: "1937", category: "family", file: "Muslim Personal Law (Shariat) Application Act,1937.pdf" },
+        { title: "Muslim Women (Protection of Rights on Divorce) Act", year: "1986", category: "family", file: "Muslim Women (Protection of Rights on Divorce)Act, 1986.pdf" },
+        { title: "Muslim Women (Protection of Rights on Marriage) Act", year: "2019", category: "family", file: "Muslim Women (Protection of Rights on Marriage) Act, 2019.pdf" },
+        { title: "Industrial Disputes Act", year: "1947", category: "labour", file: "Industrial Disputes Act, 1947.pdf" },
+        { title: "Factories Act", year: "1948", category: "labour", file: "Factories Act, 1948.pdf" },
+        { title: "Minimum Wages Act", year: "1948", category: "labour", file: "Minimum Wages Act, 1948.pdf" },
+        { title: "Payment of Wages Act", year: "1936", category: "labour", file: "Payment of Wages Act, 1936.pdf" },
+        { title: "Employees Compensation Act", year: "1923", category: "labour", file: "Employees Compensation Act, 1923.pdf" },
+        { title: "Maternity Benefit Act", year: "1961", category: "labour", file: "Maternity Benefit Act, 1961.pdf" },
+        { title: "Equal Remuneration Act", year: "1976", category: "labour", file: "Equal Remuneration Act, 1976.pdf" },
+        { title: "Contract Labour (Regulation and Abolition) Act", year: "1970", category: "labour", file: "Contract Labour (Regulation and Abolition) Act, 1970.pdf" },
+        { title: "Industrial Employment (Standing Orders) Act", year: "1946", category: "labour", file: "Industrial Employment (Standing Orders) Act, 1946.pdf" },
+        { title: "Trade Unions Act", year: "1926", category: "labour", file: "Trade Unions Act, 1926.pdf" },
+        { title: "Copyright Act", year: "1957", category: "ip", file: "Copyright Act, 1957.pdf" },
+        { title: "Patents Act", year: "1970", category: "ip", file: "Patents Act, 1970.pdf" },
+        { title: "Trade Marks Act", year: "1999", category: "ip", file: "Trade Marks Act, 1999.pdf" },
+        { title: "Information Technology Act", year: "2000", category: "ip", file: "Information Technology Act, 2000.pdf" },
+        { title: "Environment (Protection) Act", year: "1986", category: "environmental", file: "Environment (Protection) Act, 1986.pdf" },
+        { title: "Air (Prevention and Control of Pollution) Act", year: "1981", category: "environmental", file: "Air (Prevention and Control of Pollution) Act, 1981.pdf" },
+        { title: "National Green Tribunal Act", year: "2010", category: "environmental", file: "National Green Tribunal Act, 2010.pdf" },
+        { title: "Motor Vehicles Act", year: "1988", category: "civil", file: "Motor Vehicles Act, 1988.pdf" },
+        { title: "Land Acquisition Act", year: "1894", category: "civil", file: "Land Acquisition Act, 1894.pdf" },
+        { title: "Right to Fair Compensation and Transparency in Land Acquisition", year: "2013", category: "civil", file: "Right to Fair Compensation and Transparency in Land Acquisition.pdf" },
+        { title: "Rehabilitation and Resettlement Act", year: "2013", category: "civil", file: "Rehabilitation and Resettlement Act, 2013.pdf" },
+        { title: "Advocates Act", year: "1961", category: "civil", file: "Advocates Act, 1961.pdf" },
+        { title: "Administrative Tribunals Act", year: "1985", category: "civil", file: "Administrative Tribunals Act, 1985.pdf" }
+    ];
+
+    const categoryNames = {
+        constitutional: "Constitutional",
+        criminal: "Criminal",
+        civil: "Civil",
+        corporate: "Corporate",
+        family: "Family",
+        labour: "Labour",
+        ip: "IP & Tech",
+        environmental: "Environmental"
+    };
+
+    function renderActs(filteredActs) {
+        const grid = document.getElementById('actsGrid');
+        grid.innerHTML = filteredActs.map(act => `
+            <div class="act-flashcard" data-category="${act.category}">
+                <span class="act-category">${categoryNames[act.category]}</span>
+                <div class="act-title">${act.title}</div>
+                <div class="act-year">${act.year}</div>
+                <div class="act-actions">
+                    <a href="pdfs/${act.file}" class="act-btn btn-view" target="_blank">
+                        <span>📄</span> View
+                    </a>
+                    <a href="pdfs/${act.file}" class="act-btn btn-download" download>
+                        <span>⬇️</span> Download
+                    </a>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    renderActs(acts);
+
+    // Search functionality
+    document.getElementById('searchBox').addEventListener('input', (e) => {
+        const search = e.target.value.toLowerCase();
+        const filtered = acts.filter(act => 
+            act.title.toLowerCase().includes(search) || 
+            act.year.includes(search)
+        );
+        renderActs(filtered);
+    });
+
+    // Filter functionality
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            const filter = btn.dataset.filter;
+            const filtered = filter === 'all' ? acts : acts.filter(act => act.category === filter);
+            renderActs(filtered);
+        });
+    });
+</script>
+
+</body>
+</html>
